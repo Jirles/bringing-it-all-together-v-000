@@ -68,14 +68,25 @@ class Dog
     query = DB[:conn].execute(sql, name, breed)
     if !query.empty?
       data = query[0]
-      Dog.new({id: data[0], name: data[1], breed: data[2]})
+      Dog::new({id: data[0], name: data[1], breed: data[2]})
     else 
-      Dog.create({name: name, breed: breed})
+      Dog::create({name: name, breed: breed})
     end
   end 
   
   def self::new_from_db(row)
-    Dog.new({id: row[0], name: row[1], breed: row[2]})
+    Dog::new({id: row[0], name: row[1], breed: row[2]})
+  end 
+  
+  def self::find_by_name(name)
+    sql = <<-SQL
+      SELECT * 
+      FROM dogs
+      WHERE name = ?
+    SQL
+    
+    row = DB[:conn].execute(sql, name)[0]
+    Dog::new_from_db(row)
   end 
   
 end 
