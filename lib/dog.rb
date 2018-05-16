@@ -65,9 +65,10 @@ class Dog
       WHERE name = ? AND breed = ?
     SQL
     
-    query = DB[:conn].execute(sql, name, breed)[0]
+    query = DB[:conn].execute(sql, name, breed)
     if !query.empty?
-      Dog.new({id: query[0], name: query[1], breed: query[2]})
+      data = query[0]
+      Dog.new({id: data[0], name: data[1], breed: data[2]})
     else 
       Dog.create({name: name, breed: breed})
     end
