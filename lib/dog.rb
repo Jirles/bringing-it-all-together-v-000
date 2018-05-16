@@ -66,7 +66,7 @@ class Dog
     SQL
     
     query = DB[:conn].execute(sql, name, breed)[0]
-    if !query.empty?
+    if !query.nil?
       Dog.new({id: query[0], name: query[1], breed: query[2]})
     else 
       Dog.create({id: query[0], name: query[1], breed: query[2]})
